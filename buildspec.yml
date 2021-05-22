@@ -6,10 +6,16 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
+      - echo "ECR get login"  
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - REPOSITORY_URI=077708451457.dkr.ecr.ap-south-1.amazonaws.com/node-app
+      - echo $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)  
+      - REPOSITORY_URI=423661677571.dkr.ecr.us-east-1.amazonaws.com/node-app
+      - echo "Commit hash"   
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo $COMMIT_HASH
+      - echo "Image Tag"  
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo $IMAGE_TAG  
   build:
     commands:
       - echo Build started on `date`
